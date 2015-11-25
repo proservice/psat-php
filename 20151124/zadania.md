@@ -59,7 +59,7 @@ $wyrazenieZlozone.
 * Podpowiedź 1: rozbijanie tesktów funkcja `explode()` do wyczytania w internetach.
 * Podpowiedź 2: wpisywanie tekstów dużymi małyli lietrami, całych, pierwszych liter: `ucfist()`, `lcfirst()`, `strtoupper()`, `strtolower()`.
 
-## Zad. 6
+## [Zadanie 6]
 - [ ] Napisać funkcję o nazwie `obliczPierwiastkiRownaniaKwadratowego()` (o 3 parametrach: *`$a`*, *`$b`*,
 *`$c`*), która oblicza i wypisuje na ekranie pierwiastki rzeczywiste równania kwadratowego, jeśli one
 istnieją (w zależności od parametrów funkcji `$a`, `$b`, `$c`, które są współczynnikami równania kwadratowego postaci ax2 + bx + c = 0).
