@@ -1,2 +1,1 @@
-# psat-php
-Pliki do zajęć
+# WIECZORY WTORKOWE PHPoWE
