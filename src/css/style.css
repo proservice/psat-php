@@ -1,0 +1,32 @@
+.blue {
+color: blue!important;
+}
+.naglowek1 {
+  color: red;
+}
+
+ul,p {
+color: yellow;
+font-size: 20px;
+}
+
+ol  {
+ margin: 20px;
+ padding: 10px;
+}
+
+ol li ol {
+
+margin-left: 40px;
+margin-right: 0;
+margin-top: 0;
+margin-bottom: 0;
+
+}
+
+.ms {
+ float: right;
+ width: 300px;
+ height: 150px;
+ font-size: 24px;
+}
