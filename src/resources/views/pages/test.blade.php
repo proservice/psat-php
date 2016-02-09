@@ -1,0 +1,1 @@
+<a href="{{ route('pages', ['page' => 'kontakt'])  }}">Kontakt</a>
