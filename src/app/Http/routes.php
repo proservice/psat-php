@@ -14,7 +14,7 @@
 //Route::group(['prefix' => 'test'], function(){
 Route::get('/', 'PagesController@mainPage');
 Route::post('/convert', 'PagesController@convert');
-Route::put();
+
 //});
 
 /*
