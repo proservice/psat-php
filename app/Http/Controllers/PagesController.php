@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Routing\Controller as BaseController;
 
 class PagesController extends BaseController {
-    public function mainPage() {
-        //wyświetlić formularz uzytkownikowi
-        return view('pages.welcome2');
+    public function mainPage($name) {
+        return view('pages.mainpage');
     }
 
     public function convert() {

@@ -12,8 +12,7 @@
 */
 
 //Route::group(['prefix' => 'test'], function(){
-Route::get('/', 'PagesController@mainPage');
-Route::post('/convert', 'PagesController@convert');
+
 //});
 
 /*
@@ -28,5 +27,9 @@ Route::post('/convert', 'PagesController@convert');
 */
 
 Route::group(['middleware' => ['web']], function () {
-    //
+    Route::get('/', [
+        'as' => 'home',
+        'uses' => 'PagesController@mainPage'
+    ]);
+    Route::post('/convert', 'PagesController@convert');
 });
