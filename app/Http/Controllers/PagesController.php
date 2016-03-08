@@ -3,14 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Http\Request;
 
 class PagesController extends BaseController {
     public function mainPage($name) {
         return view('pages.mainpage');
     }
 
-    public function convert() {
-        //dane od uzytkownika
+    public function convert(Request $request) {
+	
+	//TODO: Dodać walidację pola kwoty formularza i obsłużyć błędy w widoku blade  
+	//https://laravel.com/docs/5.2/validation
+
+	//dane od uzytkownika
         $value = $_POST['value'];
         $currencyFrom = 'PLN';
 
