@@ -1,2 +1,2 @@
-Pliki z zajec
-I zadania
+Zespół developerski PSAT: 
+1. Maciej Świderski
