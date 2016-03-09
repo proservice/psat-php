@@ -14,7 +14,7 @@ class PagesController extends BaseController {
 	
 	//TODO: Dodać walidację pola kwoty formularza i obsłużyć błędy w widoku blade  
 	//https://laravel.com/docs/5.2/validation
-
+/*
 	//dane od uzytkownika
         $value = $_POST['value'];
         $currencyFrom = 'PLN';
@@ -44,5 +44,6 @@ class PagesController extends BaseController {
         return view('pages.welcome2', [
             'out' => $wynik
         ]);
+*/
     }
 }
