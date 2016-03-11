@@ -6,15 +6,20 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 
 class PagesController extends BaseController {
-    public function mainPage($name) {
+    public function mainPage() {
         return view('pages.mainpage');
     }
 
     public function convert(Request $request) {
-	
 	//TODO: Dodać walidację pola kwoty formularza i obsłużyć błędy w widoku blade  
 	//https://laravel.com/docs/5.2/validation
-/*
+
+    //chcemy osiągnąć sytację taką:
+        //Jak wprowadzimy złe dane i nie przejdziemy walidacji - to wracamy do formularza i pokazujemy błedy
+        //Jak wprowadzimy dobre dane do dostajemy na ekranie komunikat: 'Udało się'
+    dd('Udało się.');
+
+    /*
 	//dane od uzytkownika
         $value = $_POST['value'];
         $currencyFrom = 'PLN';

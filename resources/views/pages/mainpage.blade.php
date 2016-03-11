@@ -9,6 +9,7 @@
                 value="Convert to pln"
                 class="button"
         />
+    {{ csrf_field() }}
     </form>
     @if(isset($out))
         Wynik konwersji do USD: {{$out}}
