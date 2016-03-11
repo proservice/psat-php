@@ -6,7 +6,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 
 class PagesController extends BaseController {
-    public function mainPage($name) {
+    public function mainPage() {
         return view('pages.mainpage');
     }
 
