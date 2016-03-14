@@ -35,3 +35,4 @@ php artisan key:generate
 Zespół developerski PSAT:
 ===
 1. Maciej Świderski
+2. Bartosz Wojtyła
