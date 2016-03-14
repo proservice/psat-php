@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class PagesController extends BaseController {
     public function mainPage() {
@@ -17,7 +19,17 @@ class PagesController extends BaseController {
     //chcemy osiągnąć sytację taką:
         //Jak wprowadzimy złe dane i nie przejdziemy walidacji - to wracamy do formularza i pokazujemy błedy
         //Jak wprowadzimy dobre dane do dostajemy na ekranie komunikat: 'Udało się'
-    dd('Udało się.');
+
+    $validator = Validator::make($request->all(), [
+        'value' => 'required|numeric|greater_than:0',
+    ]);
+
+    if ($validator->fails()) {
+        return redirect('')
+            ->withErrors($validator);
+    }else{
+        dd('Udało się.');
+    }
 
     /*
 	//dane od uzytkownika
