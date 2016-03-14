@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controller as BaseController;
+//use Illuminate\Routing\Controller as BaseController;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 
-class PagesController extends BaseController {
+//class PagesController extends BaseController {
+class PagesController extends Controller {
     public function mainPage() {
         return view('pages.mainpage');
     }
@@ -20,6 +22,7 @@ class PagesController extends BaseController {
         //Jak wprowadzimy złe dane i nie przejdziemy walidacji - to wracamy do formularza i pokazujemy błedy
         //Jak wprowadzimy dobre dane do dostajemy na ekranie komunikat: 'Udało się'
 
+//Bartek - rozwiązanie z wykorzystaniem Facady Validator
     $validator = Validator::make($request->all(), [
         'value' => 'required|numeric|greater_than:0',
     ]);
@@ -30,6 +33,14 @@ class PagesController extends BaseController {
     }else{
         dd('Udało się.');
     }
+
+/* Wacaław rozwiązanie z wykorzystaniem Train Validation
+    $this->validate($request, [
+        'value' => 'required|numeric|',
+        ]);
+
+    echo "Udało się.";
+*/
 
     /*
 	//dane od uzytkownika

@@ -11,6 +11,7 @@
         />
     {{ csrf_field() }}
     </form>
+    
     @if(isset($out))
         Wynik konwersji do USD: {{$out}}
     @endif
@@ -24,6 +25,4 @@
             </ul>
         </div>
     @endif
-
-
 @endsection
