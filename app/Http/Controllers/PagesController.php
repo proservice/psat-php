@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controller as BaseController;
+//use Illuminate\Routing\Controller as BaseController;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class PagesController extends BaseController {
+//class PagesController extends BaseController {
+class PagesController extends Controller {
     public function mainPage() {
         return view('pages.mainpage');
     }
@@ -17,7 +19,11 @@ class PagesController extends BaseController {
     //chcemy osiągnąć sytację taką:
         //Jak wprowadzimy złe dane i nie przejdziemy walidacji - to wracamy do formularza i pokazujemy błedy
         //Jak wprowadzimy dobre dane do dostajemy na ekranie komunikat: 'Udało się'
-    dd('Udało się.');
+     $this->validate($request, [
+        'value' => 'required|numeric|',
+        ]);
+
+    echo "Udało się.";
 
     /*
 	//dane od uzytkownika
