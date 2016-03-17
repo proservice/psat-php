@@ -36,3 +36,5 @@ Zespół developerski PSAT:
 ===
 1. Maciej Świderski
 2. Bartosz Wojtyła
+3. Cezary Praetendo  
+
