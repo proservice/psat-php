@@ -1,37 +1,67 @@
-<?php namespace Psat;
+<?php
+
+namespace Psat;
+
+use Cache;
 
 class Fixerio {
-    protected $apiClient;
 
-    public function __construct()
-    {
+    protected $apiClient;
+    protected $currencySymbols;
+
+    public function __construct() {
         $this->apiClient = new \GuzzleHttp\Client();
     }
 
-    public function getCurrencies()
-    {
-        //[krok 0] sprawdzić czy mamy dane w cache, jeżeli tak zwrócić dane z
-        //cache
-        // date('Y-m-d') . 'currencies'
+    public function getCurrencies() { 
 
-        //czy usuwać cache
-
-        //pobieranie z fixer io
-        //http://api.fixer.io/latest
-        $result = $this->apiClient->request(
-            'GET', 'http://api.fixer.io/latest');
-        $response = json_decode($result->getBody());
-
-        //[krok 1] - wyciągnać potrzebne informacje z odpowiedzi API
-        $currencies = $this->formatResponse($response);
-
-        //[krok 0] - dodać informacje z krok 1 do caches z indeksem:
-        // $date - data zwrócona z fixer.io
-        // $date . 'currencies'
+        $response = $this->collectDataCurrency();
+        
+        $this->currencySymbols = $this->getCurrencySymbols($response);
+     return $this->currencySymbols;
+        
     }
 
-    private function formatResponse($response)
-    {
-        //piszę logikę formatatowania danych
+    private function formatResponse($symb1, $symb2) { // wylicza ratio 
+
+        $cur1 = $response->rates->$symb1;
+        $cur2 = $response->rates->$symb2;
+        $resp=$cur1/$cur2;
+        return $resp;
+                
     }
+
+    private function getCurrencySymbols($response) { // buduje liste dostepnych walut 
+
+        $tmp = $response->rates;
+        $tmp = json_decode(json_encode($tmp), true);
+        $tmp = array_keys($tmp);
+        $tmpArray=array();
+        for ($i=0;$i <= count($tmp)-1;$i++){
+            $tmpArray[$tmp[$i]] =  $tmp[$i];
+        }
+    return $tmpArray;
+        
+        
+    }
+
+    private function collectDataCurrency() { // pobiera i psprawdza czy nie ma dnych w cache
+        $data = date('Y-m-d');
+
+        if (Cache::has($data)) {
+            $response = Cache::get($data);
+//            echo("Z pamieci");
+        } else {
+            $result = $this->apiClient->request(
+                    'GET', 'http://api.fixer.io/latest');
+            $response = json_decode($result->getBody());
+            Cache::rememberForever($data, $response);
+//            echo("Dopisano");
+        }
+//           $base = $response->base;
+//           $response = $response->rates[$base]=1;  // chciłem dodać walute bazową 
+           
+        return $response;
+    }
+
 }
