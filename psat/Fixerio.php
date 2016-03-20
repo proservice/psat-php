@@ -3,6 +3,7 @@
 namespace Psat;
 
 use Cache;
+use Carbon;
 
 class Fixerio {
 
@@ -47,7 +48,7 @@ class Fixerio {
 
     private function collectDataCurrency() { // pobiera i psprawdza czy nie ma dnych w cache
         $data = date('Y-m-d');
-
+$expiresAt =  \Carbon\Carbon::now()->addMinutes(4600);
         if (Cache::has($data)) {
             $response = Cache::get($data);
 //            echo("Z pamieci");
@@ -55,7 +56,7 @@ class Fixerio {
             $result = $this->apiClient->request(
                     'GET', 'http://api.fixer.io/latest');
             $response = json_decode($result->getBody());
-            Cache::rememberForever($data, $response);
+            Cache::put($data, $response, $expiresAt);
 //            echo("Dopisano");
         }
 //           $base = $response->base;
