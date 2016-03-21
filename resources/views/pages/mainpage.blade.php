@@ -4,21 +4,11 @@
     <form action="/convert" method="post">
         Zamień: {{ Form::text('kwota') }}
         {{
-            Form::select('walutaBaza',
-                array(
-                    'USD' => 'USD',
-                    'PLN' => 'PLN'
-                )
-            )
+            Form::select('walutaBaza', $Curr)
         }}
         na:
         {{
-            Form::select('walutaDocelowa',
-                array(
-                    'USD' => 'USD',
-                    'PLN' => 'PLN'
-                )
-            )
+            Form::select('walutaDocelowa',$Curr)
         }}
 
         {{ Form::submit('Konwertuj') }}

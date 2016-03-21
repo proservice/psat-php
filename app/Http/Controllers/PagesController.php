@@ -11,11 +11,13 @@ use Psat\Fixerio;
 
 //class PagesController extends BaseController {
 class PagesController extends Controller {
+    protected $fixer;
     public function mainPage() {
         //pobrać dane o dostępnych walutach, żeby wygenerować selecty
         $fixer = new Fixerio();
         $currencies = $fixer->getCurrencies();
-        return view('pages.mainpage');
+        
+        return view('pages.mainpage', array ('Curr' => $currencies));
     }
 
     public function convert(Request $request) {
@@ -30,7 +32,8 @@ class PagesController extends Controller {
         return back()
             ->withErrors($validator);
     }
-        //publiczne api
+    $score = $this->$fixer->calculateCurrency($curr,$symb1,$symb2);
+      return $score ; 
 
     }
 }
