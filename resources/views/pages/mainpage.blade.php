@@ -4,11 +4,11 @@
     <form action="/convert" method="post">
         Zamień: {{ Form::text('kwota') }}
         {{
-            Form::select('walutaBaza', $Curr)
+            Form::select('walutaBaza', $curr)
         }}
         na:
         {{
-            Form::select('walutaDocelowa',$Curr)
+            Form::select('walutaDocelowa',$curr)
         }}
 
         {{ Form::submit('Konwertuj') }}
@@ -35,4 +35,12 @@
             </ul>
         </div>
     @endif
+@endsection
+
+@section('javascript')
+
+    <script type="text/javascript">
+        alert('test java');
+    </script>
+
 @endsection

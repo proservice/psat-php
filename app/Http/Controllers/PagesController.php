@@ -13,27 +13,30 @@ use Psat\Fixerio;
 class PagesController extends Controller {
     protected $fixer;
     public function mainPage() {
-        //pobrać dane o dostępnych walutach, żeby wygenerować selecty
-        $fixer = new Fixerio();
-        $currencies = $fixer->getCurrencies();
-        
-        return view('pages.mainpage', array ('Curr' => $currencies));
+        $fixer = new Fixerio(); //TODO: to jeszcze nie jest dobrze
+        return view('pages.mainpage', array ('curr' => $fixer->getCurrencies()));
     }
 
     public function convert(Request $request) {
-    //Bartek - rozwiązanie z wykorzystaniem Facady Validator
-    $validator = Validator::make($request->all(),
-        [
-            'kwota' => 'required|numeric',
-        ]
-    );
+        //TODO: walidacja: rozpoznać, czy ktoś nie próbuje skonwertować tej samej waluty
+        $validator = Validator::make($request->all(),
+            [
+                'kwota' => 'required|numeric',
+            ]
+        );
 
-    if ($validator->fails()) {
-        return back()
-            ->withErrors($validator);
-    }
-    $score = $this->$fixer->calculateCurrency($curr,$symb1,$symb2);
-      return $score ; 
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator);
+        }
 
+        //validacja się udała
+        dd($request->all());
+        $fixer = new Fixerio(); //TODO: to jeszcze nie jest dobrze
+
+        //Zadanie: wykonać konwersję odpytując API
+        $result = $fixer->convertCurrencies();
+
+        dd($result);
     }
 }
