@@ -22,6 +22,8 @@ class PagesController extends Controller {
         $validator = Validator::make($request->all(),
             [
                 'kwota' => 'required|numeric',
+                'walutaBaza'=>'required',
+                'walutaDocelowa'=>'required',
             ]
         );
 
@@ -31,12 +33,17 @@ class PagesController extends Controller {
         }
 
         //validacja się udała
-        dd($request->all());
+        //dd($request->all());
+        $walutaBaza =$request->all()["walutaBaza"];
+        $walutaDocelowa = $request->all()["walutaDocelowa"];
+        $kwota= $request->all()["kwota"];
+        
+        
         $fixer = new Fixerio(); //TODO: to jeszcze nie jest dobrze
 
         //Zadanie: wykonać konwersję odpytując API
-        $result = $fixer->convertCurrencies();
-
-        dd($result);
+        $result = $fixer->convertCurrencies($walutaBaza,$kwota,$walutaDocelowa);
+            echo " Wynik " . $result . " ". $walutaDocelowa ;
+//        dd($result);
     }
 }
