@@ -14,20 +14,11 @@ class Fixerio {
     }
 
     public function getCurrencies() {
-        return $this->castToArray($this->collectDataCurrency());
+        
+//         dd( $this->convertCurrencies("EUR",50,"USD"));
+        return $this->castToArray($this->collectDataCurrency());  
     }
 
-    private function formatResponse($symb1, $symb2) { // wylicza ratio do obliczeń 
-        $cur1 = $this->currencySymbols[$symb1];
-        $cur2 = $this->currencySymbols[$symb2];
-        $resp = $cur1 / $cur2;
-        return $resp;
-    }
-    public function calculateCurrency($curr,$symb1,$symb2){ //przelicza waluty 
-       $ratio = $this ->formatResponse($symb1, $symb2);
-       $score=$ratio * $curr;
-       return $score;
-    }
 
     private function collectDataCurrency() {
         $cacheKey = 'currenciesFor' . date('Y-m-d');
@@ -63,9 +54,17 @@ class Fixerio {
         return $currencies;
     }
 
-    public function convertCurrencies()
+    public function convertCurrencies( $baseCurrency ,$quantityCurrecny , $calculateCurrency )
     {
-        //TODO: wykonać konwersję walut i zwrócić wynik korzystając z API
+                $result = $this->apiClient->request(
+            'GET',
+            "http://api.fixer.io/latest?base=$baseCurrency&symbols=$calculateCurrency"
+        );
+        $response = json_decode($result->getBody());
+       $equal= get_object_vars($response->rates)[$calculateCurrency] * $quantityCurrecny ;
+       
+        return $equal;
+
     }
 
 }

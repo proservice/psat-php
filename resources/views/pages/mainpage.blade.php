@@ -4,11 +4,11 @@
     <form action="/convert" method="post">
         Zamień: {{ Form::text('kwota') }}
         {{
-            Form::select('walutaBaza', $curr)
+            Form::select('walutaBaza', $curr, null,["onchange"=>"validate()",  "id"=>"walutaBaza"] )
         }}
         na:
         {{
-            Form::select('walutaDocelowa',$curr)
+            Form::select('walutaDocelowa',$curr,null,["onchange"=>"validate()", "id"=>"walutaDocelowa" ] )
         }}
 
         {{ Form::submit('Konwertuj') }}
@@ -40,7 +40,20 @@
 @section('javascript')
 
     <script type="text/javascript">
-        alert('test java');
+        document.getElementById("walutaDocelowa").selectedIndex  = "-1";
+        document.getElementById("walutaBaza").selectedIndex  = "-1";
+       function validate(){
+        var walBaza = document.getElementById("walutaBaza").value; 
+        var walDoc =  document.getElementById("walutaDocelowa").value;
+       if( walBaza == walDoc ){
+         alert ("Wybrałeś idntyczne waluty "  + walBaza );
+       }
+        
+       }
+       
     </script>
-
+<!--walutaBaza.remove(walutaDocelowa.selectedIndex);
+walutaDocelowa.remove(walutaBaza.selectedIndex);-->
 @endsection
+
+
