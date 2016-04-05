@@ -2,48 +2,45 @@
 
 namespace App\Http\Controllers;
 
-//use Illuminate\Routing\Controller as BaseController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Mockery\CountValidator\Exception;
 use Psat\Fixerio;
 
-
-//class PagesController extends BaseController {
 class PagesController extends Controller {
-    protected $fixer;
+
+    protected $fixerIo;
+
+    public function __construct(\Psat\CurrenciesApi $fixerIo) {
+        $this->fixerIo = $fixerIo;
+    }
+
     public function mainPage() {
-        $fixer = new Fixerio(); //TODO: to jeszcze nie jest dobrze
-        return view('pages.mainpage', array ('curr' => $fixer->getCurrencies()));
+        return view('pages.mainpage', array ('curr' => $this->fixerIo->getCurrencies()));
     }
 
     public function convert(Request $request) {
-        //TODO: walidacja: rozpoznać, czy ktoś nie próbuje skonwertować tej samej waluty
-        $validator = Validator::make($request->all(),
-            [
-                'kwota' => 'required|numeric',
-                'walutaBaza'=>'required',
-                'walutaDocelowa'=>'required',
-            ]
-        );
+        $validator = Validator::make($request->all(), [
+                'kwota'         =>  'required|numeric',
+                'walutaBaza'    =>  'required|different:walutaDocelowa',
+                'walutaDocelowa'=>  'required|different:walutaBaza',
+        ]);
 
         if ($validator->fails()) {
             return back()
+                ->withInput()
                 ->withErrors($validator);
         }
 
-        //validacja się udała
-        //dd($request->all());
-        $walutaBaza =$request->all()["walutaBaza"];
-        $walutaDocelowa = $request->all()["walutaDocelowa"];
-        $kwota= $request->all()["kwota"];
-        
-        
-        $fixer = new Fixerio(); //TODO: to jeszcze nie jest dobrze
+        $result = $this->fixerIo->convertCurrencies(
+            $request->input('walutaBaza'),
+            $request->input('kwota'),
+            $request->input('walutaDocelowa')
+        );
 
-        //Zadanie: wykonać konwersję odpytując API
-        $result = $fixer->convertCurrencies($walutaBaza,$kwota,$walutaDocelowa);
-            echo " Wynik " . $result . " ". $walutaDocelowa ;
-//        dd($result);
+        return back()
+            ->withInput()
+            ->with('result', $result);
     }
 }

@@ -15,6 +15,14 @@
 
 //});
 
+//TODO: opracować poniższe pojęcia
+//IoC: Inversion of Control - to jest ogólna koncepcja
+//DI: Dependency Injection - jeden ze sposobów na implementację IoC
+//DIP: Dependency Inversion Principle - dobra praktyka programowania związana z
+// S.O.L.I.D - dograć do gmail'a
+//https://laravel.com/docs/5.2/container
+App::bind('\Psat\CurrenciesApi', '\Psat\Fixerio');
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes

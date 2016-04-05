@@ -5,17 +5,15 @@ namespace Psat;
 use Cache;
 use Carbon\Carbon;
 
-class Fixerio {
+class Fixerio implements CurrenciesApi {
 
     protected $apiClient;
 
-    public function __construct() {
-        $this->apiClient = new \GuzzleHttp\Client();
+    public function __construct(\GuzzleHttp\Client $guzzle) {
+        $this->apiClient = $guzzle;
     }
 
     public function getCurrencies() {
-        
-//         dd( $this->convertCurrencies("EUR",50,"USD"));
         return $this->castToArray($this->collectDataCurrency());  
     }
 
