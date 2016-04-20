@@ -1,5 +1,5 @@
 <?php
-
+//\Psat\CurrenciesApi $fixerIo
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -10,14 +10,14 @@ use Psat\Fixerio;
 
 class PagesController extends Controller {
 
-    protected $fixerIo;
+    protected $api;
 
-    public function __construct(\Psat\CurrenciesApi $fixerIo) {
-        $this->fixerIo = $fixerIo;
+    public function __construct(\Psat\CurrenciesApi $api) {
+        $this->api = $api;
     }
 
     public function mainPage() {
-        return view('pages.mainpage', array ('curr' => $this->fixerIo->getCurrencies()));
+        return view('pages.mainpage', array ('curr' => $this->api->getCurrencies()));
     }
 
     public function convert(Request $request) {
@@ -33,7 +33,7 @@ class PagesController extends Controller {
                 ->withErrors($validator);
         }
 
-        $result = $this->fixerIo->convertCurrencies(
+        $result = $this->api->convertCurrencies(
             $request->input('walutaBaza'),
             $request->input('kwota'),
             $request->input('walutaDocelowa')

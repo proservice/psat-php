@@ -21,7 +21,7 @@ class Nbp implements CurrenciesApi {
     private function collectDataCurrency() {
         $cacheKey = 'currenciesFor' . date('Y-m-d');
         if (Cache::has($cacheKey)) {
-             return Cache::get($cacheKey);
+             //return Cache::get($cacheKey);
         }
 
         $result = $this->apiClient->get(
@@ -30,22 +30,23 @@ class Nbp implements CurrenciesApi {
         $xml = simplexml_load_string( $result->getBody(), "SimpleXMLElement", LIBXML_NOCDATA);
         $json = json_encode($xml);
         $curr = json_decode($json, TRUE);
-        $currencies =$curr["pozycja"];
-        $lot = count ($currencies);
-        for($i=0;$i<$lot;$i++ ){
-            
-         $response [$currencies[$i]["kod_waluty"] . " " .
-            $currencies[$i]["nazwa_waluty"]]=
-                 floatval(str_replace(",",".",$currencies[$i]["kurs_sredni"]));
-            
-          }
-        $response["PLN polski Złoty"]=1;
-        ksort($response);
-        $expiresAt = Carbon::now()->addMinutes(4600);
-        Cache::put($cacheKey, $response, $expiresAt);
-        
 
-     return $response;
+        $output = [];
+        foreach($curr['pozycja'] as $key => $value) {
+            $index = $value["kod_waluty"] . " " . $value["nazwa_waluty"];
+            $rate = floatval(
+                str_replace(",",".",$value["kurs_sredni"])
+            );
+            $output[$index] = $rate;
+        }
+
+        $output["PLN polski Złoty"]=1;
+        ksort($output);
+
+        $expiresAt = Carbon::now()->addMinutes(4600);
+        Cache::put($cacheKey, $output, $expiresAt);
+
+     return $output;
     }
 
     /**

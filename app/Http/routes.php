@@ -21,6 +21,7 @@
 //DIP: Dependency Inversion Principle - dobra praktyka programowania związana z
 // S.O.L.I.D - dograć do gmail'a
 //https://laravel.com/docs/5.2/container
+
 App::bind('\Psat\CurrenciesApi', '\Psat\Nbp');
 
 /*

@@ -5,7 +5,7 @@ namespace Psat;
 use Cache;
 use Carbon\Carbon;
 
-class Fixerio implements CurrenciesApi {
+class Fixerio implements CurrenciesApi  {
 
     protected $apiClient;
 
@@ -54,12 +54,12 @@ class Fixerio implements CurrenciesApi {
 
     public function convertCurrencies( $baseCurrency ,$quantityCurrecny , $calculateCurrency )
     {
-                $result = $this->apiClient->request(
+        $result = $this->apiClient->request(
             'GET',
             "http://api.fixer.io/latest?base=$baseCurrency&symbols=$calculateCurrency"
         );
         $response = json_decode($result->getBody());
-       $equal= get_object_vars($response->rates)[$calculateCurrency] * $quantityCurrecny ;
+        $equal= get_object_vars($response->rates)[$calculateCurrency] * $quantityCurrecny ;
        
         return $equal;
 
