@@ -41,4 +41,9 @@ Route::group(['middleware' => ['web']], function () {
         'uses' => 'PagesController@mainPage'
     ]);
     Route::post('/convert', 'PagesController@convert');
+
+    Route::get('/solid', [
+        'as' => 'solid',
+        'uses' => 'PagesController@solid'
+    ]);
 });

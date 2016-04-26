@@ -43,4 +43,28 @@ class PagesController extends Controller {
             ->withInput()
             ->with('result', $result);
     }
+
+    public function solid() {
+        // SOLID
+        // S - Single Reponsibility Principle
+        // O - Open/Closed Principle
+        //--
+        // L - Liskov Substitution Principle
+        // I - Interface Segragation Principle
+        // D - Depenedency Injection Principle
+
+        $shapes = array(
+            new \Psat\Solid\Circle(2),
+            new \Psat\Solid\Square(5),
+            new \Psat\Solid\Square(6),
+            new \Psat\Solid\Triangle(1000,2)
+        );
+
+        $areas = new \Psat\Solid\AreaCalculator($shapes);
+        $output = new \Psat\Solid\SumCalculatorOutputter($areas);
+
+        echo $output->HTML();
+
+        dd();
+    }
 }
