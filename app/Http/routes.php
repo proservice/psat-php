@@ -36,7 +36,7 @@ App::bind('\Psat\CurrenciesApi', '\Psat\Nbp');
 */
 
 Route::group(['middleware' => ['web']], function () {
-    Route::get('/', [
+    Route::get('/convert', [
         'as' => 'home',
         'uses' => 'PagesController@mainPage'
     ]);
@@ -46,4 +46,18 @@ Route::group(['middleware' => ['web']], function () {
         'as' => 'solid',
         'uses' => 'PagesController@solid'
     ]);
+
+    Route::get('/', [
+        'as' => 'books-home',
+        'uses' => 'BooksController@index'
+    ]);
+
+    Route::get('/about', [
+        'as' => 'books-about',
+        'uses' => 'BooksController@about'
+    ]);
+
+    Route::auth();
+
+    Route::get('/home', 'HomeController@index');
 });
