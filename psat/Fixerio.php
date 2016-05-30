@@ -1,37 +1,68 @@
-<?php namespace Psat;
+<?php
 
-class Fixerio {
+namespace Psat;
+
+use Cache;
+use Carbon\Carbon;
+
+class Fixerio implements CurrenciesApi  {
+
     protected $apiClient;
 
-    public function __construct()
-    {
-        $this->apiClient = new \GuzzleHttp\Client();
+    public function __construct(\GuzzleHttp\Client $guzzle) {
+        $this->apiClient = $guzzle;
     }
 
-    public function getCurrencies()
-    {
-        //[krok 0] sprawdzić czy mamy dane w cache, jeżeli tak zwrócić dane z
-        //cache
-        // date('Y-m-d') . 'currencies'
+    public function getCurrencies() {
+        return $this->castToArray($this->collectDataCurrency());  
+    }
 
-        //czy usuwać cache
 
-        //pobieranie z fixer io
-        //http://api.fixer.io/latest
+    private function collectDataCurrency() {
+        $cacheKey = 'currenciesFor' . date('Y-m-d');
+        if (Cache::has($cacheKey)) {
+             return Cache::get($cacheKey);
+        }
+
         $result = $this->apiClient->request(
-            'GET', 'http://api.fixer.io/latest');
+            'GET',
+            'http://api.fixer.io/latest'
+        );
         $response = json_decode($result->getBody());
 
-        //[krok 1] - wyciągnać potrzebne informacje z odpowiedzi API
-        $currencies = $this->formatResponse($response);
+        $expiresAt = Carbon::now()->addMinutes(4600);
+        Cache::put($cacheKey, $response, $expiresAt);
 
-        //[krok 0] - dodać informacje z krok 1 do caches z indeksem:
-        // $date - data zwrócona z fixer.io
-        // $date . 'currencies'
+        return $response;
     }
 
-    private function formatResponse($response)
+    /**
+     * @param $response
+     * @return array
+     */
+    private function castToArray($response)
     {
-        //piszę logikę formatatowania danych
+        $currencies = get_object_vars($response->rates);
+        $currencies[$response->base] = 1;
+        ksort($currencies);
+
+        foreach($currencies as $key => $value) {
+            $currencies[$key] = $key;
+        }
+        return $currencies;
     }
+
+    public function convertCurrencies( $baseCurrency ,$quantityCurrecny , $calculateCurrency )
+    {
+        $result = $this->apiClient->request(
+            'GET',
+            "http://api.fixer.io/latest?base=$baseCurrency&symbols=$calculateCurrency"
+        );
+        $response = json_decode($result->getBody());
+        $equal= get_object_vars($response->rates)[$calculateCurrency] * $quantityCurrecny ;
+       
+        return $equal;
+
+    }
+
 }
